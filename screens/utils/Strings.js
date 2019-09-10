@@ -1,0 +1,7 @@
+export var men_category = require('../../assets/men_category.jpeg')
+export var women_category = require('../../assets/women_category.jpeg')
+export var kids_category = require('../../assets/kids_category.jpeg')
+export var beauty_category = require('../../assets/beauty_category.jpeg')
+export var home_category = require('../../assets/home_category.jpeg')
+export var gadgets_category = require('../../assets/gadgets_category.jpeg')
+export var rack_category = require('../../assets/rack_category.jpeg')
