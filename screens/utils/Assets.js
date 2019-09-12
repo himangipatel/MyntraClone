@@ -8,4 +8,4 @@ export var rack_category = require('../../assets/rack_category.jpeg');
 export var bg_login = require('../../assets/bg_login.jpeg');
 export var logo_facebook = require('../../assets/facebook.png');
 export var logo_gmail = require('../../assets/gmail.png');
-export var splash_video = require('../assets/splashVideo.mp4');
+export var splash_video = require('../../assets/splashVideo.mp4');

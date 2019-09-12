@@ -32,7 +32,7 @@ import {
   validateMobileNumber,
   validatePassword,
 } from '../utils/Validator';
-import { email, password, mobile_number, full_name } from '../utils/StringUtils';
+import { email, password, mobile_number, full_name,create_account } from '../utils/StringUtils';
 import { color_green } from '../utils/ColorUtils';
 import { logo_facebook, logo_gmail } from '../utils/Assets';
 

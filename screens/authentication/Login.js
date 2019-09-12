@@ -22,7 +22,7 @@ import {API} from '../utils/APIUtils';
 import {storeUserInfor} from '../utils/AsyncUtil';
 import {validateEmail, validatePassword} from '../utils/Validator';
 import {bg_login, logo_facebook, logo_gmail} from '../utils/Assets';
-import {Email, Password, SignIn, CreateAccount} from '../utils/StringUtils';
+import {email, password, sign_in, create_account} from '../utils/StringUtils';
 import {
   color_purple_light,
   color_purple_dark,
@@ -137,7 +137,7 @@ export default class Login extends React.Component {
             <ActivityIndicator animating={this.state.isLoading} />
 
             <BoxTextField
-              hint={Email}
+              hint={email}
               icon="email"
               keyboardType="email-address"
               onChangeText={text =>
@@ -146,7 +146,7 @@ export default class Login extends React.Component {
             />
 
             <BoxTextField
-              hint={Password}
+              hint={password}
               icon="vpn-key"
               keyboardType="visible-password"
               secureTextEntry={true}
@@ -166,7 +166,7 @@ export default class Login extends React.Component {
 
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate('SignUp')}>
-                <Text style={styles.createAccountText}>Create Account</Text>
+                <Text style={styles.createAccountText}>{create_account}</Text>
               </TouchableOpacity>
             </View>
 
@@ -179,7 +179,7 @@ export default class Login extends React.Component {
                 ref={c => (this.loadingButton = c)}
                 width={300}
                 height={50}
-                title={SignIn}
+                title={sign_in}
                 backgroundColor={color_transparent}
                 titleFontSize={16}
                 titleColor="rgb(255,255,255)"
