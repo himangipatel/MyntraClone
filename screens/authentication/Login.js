@@ -1,217 +1,233 @@
-import React, { Component } from 'react'
-import { ImageBackground, Dimensions, StyleSheet, TouchableOpacity, View, Text, ToastAndroid, ActivityIndicator } from 'react-native';
-import { Icon } from "react-native-elements";
+import React, {Component} from 'react';
+import {
+  ImageBackground,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Text,
+  ToastAndroid,
+  ActivityIndicator,
+  Image,
+} from 'react-native';
 import BoxTextField from './BoxTextField';
 import LinearGradient from 'react-native-linear-gradient';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import Axios from 'axios';
 import AnimateLoadingButton from 'react-native-animate-loading-button';
-import AsyncStorage from '@react-native-community/async-storage';
 
-
+import {GoogleSignin} from 'react-native-google-signin';
+import {signOut, googleSignIn} from '../utils/AppUtils';
+import {API} from '../utils/APIUtils';
+import {storeUserInfor} from '../utils/AsyncUtil';
+import {validateEmail, validatePassword} from '../utils/Validator';
 
 export default class Login extends React.Component {
+  state = {
+    email: '',
+    emailError: '',
+    password: '',
+    passErr: '',
+    isLoading: false,
+    isLogin: false,
+  };
 
-    async componentWillMount() {
-        const userToken = await AsyncStorage.getItem('@isLogin');
-
-        if (JSON.parse(userToken)) {
-            this.props.navigation.replace('Dashboard');
-        }
-        // This will switch to the App screen or Auth screen and this loading
-        // screen will be unmounted and thrown away.
-        //  this.props.navigation.replace(userToken ? 'Dashboard' : 'Login');
+  async validateEmailPassword(email, password) {
+    if (validateEmail(email)) {
+      this.setState({email: email, emailError: ''});
+      console.log('Email is Correct');
+    } else if (!validateEmail(email)) {
+      console.log('Email is Not Correct');
+      this.setState({emailError: 'Email is not Valid', email: email});
+      ToastAndroid.show('Email is not Valid', ToastAndroid.SHORT);
+      return;
     }
 
-
-    state = {
-        email: '',
-        emailError: '',
-        password: '',
-        passErr: '',
-        isLoading: false,
-        isLogin: false
+    if (validatePassword(password)) {
+      this.setState({passErr: '', password: password});
+    } else if (!validatePassword(password)) {
+      this.setState({passErr: 'Password is not valid', password: password});
+      ToastAndroid.show('Password is not Valid', ToastAndroid.SHORT);
+      return;
     }
+    this.callLoginAPI(email, password);
+  }
 
-    validateEmail = (text) => {
-        console.log(text);
-        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (reg.test(text) === false) {
-            console.log("Email is Not Correct");
-            this.setState({ emailError: 'Email is not Valid', email: text })
-            return false;
-        }
-        else {
-            this.setState({ email: text, emailError: '' })
-            console.log("Email is Correct");
-            return true;
-        }
-
+  callLoginAPI = async (email, password) => {
+    this.loadingButton.showLoading(true);
+    let response = await this.loginWithEmailPassword(email, password);
+    this.loadingButton.showLoading(false);
+    if (response.isSuccess) {
+      storeUserInfor(response.user);
+      this.props.navigation.replace('Dashboard');
+    } else {
+      ToastAndroid.show(response.message, ToastAndroid.SHORT);
     }
+  };
 
-    validatePassword = (text) => {
-        var reg = /(?=.{8,})/;
-        if (reg.test(text) === true) {
-            this.setState({ passErr: '', password: text })
-            return true;
+  loginWithEmailPassword = async (email, password) => {
+    try {
+      const response = await Axios.post(API.Login, {
+        email: email,
+        password: password,
+        loginType: 'email-password',
+      });
+      console.log(response);
+      return response.data;
+    } catch (e) {
+      this.loadingButton.showLoading(false);
+      console.log(e);
+    }
+  };
+
+  loginWithGmail = async googleID => {
+    try {
+      const response = await Axios.post(API.Login, {
+        googleID: googleID,
+        loginType: 'google-signin',
+      });
+      return response.data;
+    } catch (e) {
+      signOut();
+      this.loadingButton.showLoading(false);
+      console.log(e);
+      alert(e);
+    }
+  };
+
+  googleSignIn = async () => {
+    const userInfo = await googleSignIn();
+    console.log(userInfo);
+    if (userInfo != null) {
+      this.loadingButton.showLoading(true);
+      let response = await this.loginWithGmail(userInfo.user.id);
+
+      this.loadingButton.showLoading(false);
+      if (response != null) {
+        if (response.isSuccess) {
+          storeUserInfor(response.user);
+          this.props.navigation.replace('Dashboard');
         } else {
-            this.setState({ passErr: 'Password is not valid', password: text })
-            return false;
+          ToastAndroid.show(response.message, ToastAndroid.SHORT);
+          signOut();
         }
+      }
     }
+  };
 
-    async login(email, password) {
+  render() {
+    GoogleSignin.configure();
+    return (
+      <ScrollView>
+        <View>
+          <ImageBackground
+            style={styles.container}
+            imageStyle={{opacity: 0.4}}
+            source={require('../../assets/bg_login.jpeg')}>
+            <ActivityIndicator animating={this.state.isLoading} />
 
-        if (!this.validateEmail(email)) {
-            ToastAndroid.show('Email is not Valid', ToastAndroid.SHORT)
-        } else if (!this.validatePassword(password)) {
-            ToastAndroid.show('Password is not Valid', ToastAndroid.SHORT)
-        } else {
-            this.loadingButton.showLoading(true);
-            let isLogin = await this.callLoginAPI(email, password) // with asysc function
-            this.loadingButton.showLoading(false);
-            if (isLogin) {
-                await AsyncStorage.setItem('@isLogin', JSON.stringify(true))
-                this.props.navigation.replace('Dashboard');
-            } else {
-                ToastAndroid.show('Login unsuccessfully...please try again...!!', ToastAndroid.SHORT)
-            }
+            <BoxTextField
+              hint="Email"
+              icon="email"
+              keyboardType="email-address"
+              onChangeText={text =>
+                this.setState({email: text, emailError: ''})
+              }
+            />
 
-            // with callback
-            // this.callLoginApi(email, password, function (response) {
-            //     if (response.isSuccess) {
-            //         this.props.navigation.navigate('Dashboard');
-            //         ToastAndroid.show('Login successfully', ToastAndroid.SHORT)
-            //     } else {
-            //         ToastAndroid.show('Login unsuccessfully...please try again...!!', ToastAndroid.SHORT)
-            //     }
-            // })
+            <BoxTextField
+              hint="Password"
+              icon="vpn-key"
+              keyboardType="visible-password"
+              secureTextEntry={true}
+              onChangeText={text =>
+                this.setState({password: text, passErr: ''})
+              }
+            />
 
-        }
-    }
+            <View
+              style={{
+                flexDirection: 'row',
+                alignContent: 'center',
+                marginTop: 10,
+                marginBottom: 20,
+              }}>
+              <Text style={{color: '#fff'}}>Don't have account??</Text>
 
-    callLoginAPI = async (email, password) => {
-        try {
-            const response = await Axios.post('http://192.168.11.86:8080/login', {
-                email: email,
-                password: password
-            });
-            if (response.data.isSuccess) {
-                // this.props.navigation.navigate('Dashboard');
-                // await AsyncStorage.setItem('isLogin', true);
-                return true;
-            } else {
-                return false;
-            }
-        } catch (e) {
-            return false;
-        }
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('SignUp')}>
+                <Text
+                  style={{
+                    color: '#fff',
+                    textDecorationLine: 'underline',
+                    marginLeft: 7,
+                  }}>
+                  Create Account
+                </Text>
+              </TouchableOpacity>
+            </View>
 
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              colors={['#172C4B', '#5F4B9B']}
+              style={styles.linearGradient}>
+              <AnimateLoadingButton
+                ref={c => (this.loadingButton = c)}
+                width={300}
+                height={50}
+                title="SIGN IN"
+                backgroundColor="transparent"
+                titleFontSize={16}
+                titleColor="rgb(255,255,255)"
+                borderRadius={4}
+                onPress={() =>
+                  this.validateEmailPassword(this.state.email, this.state.password)
+                }
+              />
+            </LinearGradient>
 
-    }
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity onPress={signOut}>
+                <Image
+                  style={{width: 40, height: 40, marginTop: 15}}
+                  source={require('../../assets/facebook.png')}
+                />
+              </TouchableOpacity>
 
-    callLoginApi = (email, password, callback) => {
-        Axios.post('http://192.168.11.86:8080/login', {
-            email: email,
-            password: password
-        }).then(res => {
-            this._storeData();
-            console.log(res.data);
-            callback(res.data)
-        }).catch(error => {
-            console.log(error);
-        });
-    }
-
-    changeLoader(isVisible) {
-        this.setState({
-            isLoading: true
-        })
-    }
-
-    render() {
-
-        return (
-            <ScrollView>
-                <View>
-                    <ImageBackground
-                        style={styles.container}
-                        imageStyle={{ opacity: 0.4 }}
-                        source={require('../../assets/bg_login.jpeg')}>
-
-                        <ActivityIndicator animating={this.state.isLoading} />
-
-
-                        <BoxTextField
-                            hint='Email'
-                            icon="email"
-                            keyboardType='email-address'
-                            onChangeText={(text) => this.setState({ email: text, emailError: '' })} />
-
-                        <BoxTextField
-                            hint='Password'
-                            icon="vpn-key"
-                            keyboardType='visible-password'
-                            secureTextEntry={true}
-                            onChangeText={(text) => this.setState({ password: text, passErr: '' })} />
-
-                        <View style={{ flexDirection: 'row', alignContent: 'center', marginTop: 10, marginBottom: 20 }}>
-                            <Text style={{ color: '#fff' }}>Don't have account??</Text>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('SignUp')}>
-                                <Text style={{ color: '#fff', textDecorationLine: 'underline', marginLeft: 7 }}>Create Account</Text>
-                            </TouchableOpacity>
-                        </View>
-
-                        {/* <TouchableOpacity onPress={() => this.login(this.state.email, this.state.password)}>
-                            <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#172C4B', '#5F4B9B']} style={styles.linearGradient}>
-                                <Text style={styles.buttonText}>SIGN IN </Text>
-                            </LinearGradient>
-                        </TouchableOpacity> */}
-                        <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={['#172C4B', '#5F4B9B']} style={styles.linearGradient}>
-                            <AnimateLoadingButton
-                                ref={c => (this.loadingButton = c)}
-                                width={300}
-                                height={50}
-                                title="SIGN IN"
-                                backgroundColor='transparent'
-                                titleFontSize={16}
-                                titleColor="rgb(255,255,255)"
-                                borderRadius={4}
-                                onPress={() => this.login(this.state.email, this.state.password)}
-                            />
-                        </LinearGradient>
-
-                    </ImageBackground >
-                </View>
-            </ScrollView >
-
-        )
-    }
+              <TouchableOpacity onPress={this.googleSignIn}>
+                <Image
+                  style={{width: 40, height: 40, marginTop: 15, marginLeft: 30}}
+                  source={require('../../assets/gmail.png')}
+                />
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
+        </View>
+      </ScrollView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-
-    container: {
-        width: Dimensions.get('screen').width,
-        height: Dimensions.get('window').height,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#000000'
-    },
-    linearGradient: {
-        borderRadius: 5,
-        // width: Dimensions.get('window').width,
-        width: 350,
-        marginTop: 20,
-        // marginLeft:40,
-        // marginRight:40
-    },
-    buttonText: {
-        fontSize: 18,
-        fontFamily: 'Gill Sans',
-        textAlign: 'center',
-        margin: 10,
-        color: '#ffffff',
-        backgroundColor: 'transparent',
-    },
+  container: {
+    width: Dimensions.get('screen').width,
+    height: Dimensions.get('window').height,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000000',
+  },
+  linearGradient: {
+    borderRadius: 5,
+    width: 350,
+    marginTop: 20,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontFamily: 'Gill Sans',
+    textAlign: 'center',
+    margin: 10,
+    color: '#ffffff',
+    backgroundColor: 'transparent',
+  },
 });

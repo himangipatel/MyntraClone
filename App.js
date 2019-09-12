@@ -1,40 +1,31 @@
-import {
-  createStackNavigator,
-  createAppContainer
-} from 'react-navigation'
-import SignUp from './screens/authentication/SignUp'
-import DashBoardScreen from './screens/dashboard/DashboadScreen'
-import SharePlace from './screens/SharePlace/SharePlace'
-import AsyncStorage from '@react-native-community/async-storage';
-import Login from './screens/authentication/Login';
+import {createStackNavigator, createAppContainer} from 'react-navigation';
+import SignUp from './screens/authentication/SignUp';
+import DashBoardScreen from './screens/dashboard/DashboadScreen';
+import SharePlace from './screens/SharePlace/SharePlace';
 
+import Login from './screens/authentication/Login';
+import SplashScreen from './screens/SplashScreen';
 
 const MainNavigator = createStackNavigator({
- Login: {
+  SplashScreen: {
+    screen: SplashScreen,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  Login: {
     screen: Login,
     navigationOptions: {
-      header: null
-    }
+      header: null,
+    },
   },
   SignUp: {
-    screen: SignUp
+    screen: SignUp,
   },
   Dashboard: {
-    screen: DashBoardScreen
-  }
-
-})
-
-
-getData = async () => {
-  try {
-    const value = await AsyncStorage.getItem('@randomValue')
-    return value;
-  } catch (e) {
-    alert('catch')
-    this.storeData()
-  }
-}
+    screen: DashBoardScreen,
+  },
+});
 
 const App = createAppContainer(MainNavigator);
 export default App;

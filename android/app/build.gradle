@@ -188,6 +188,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-video')
+    implementation project(':react-native-google-signin')
     implementation project(':react-native-linear-gradient')
     implementation project(':@react-native-community_geolocation')
     implementation(project(':react-native-maps')){

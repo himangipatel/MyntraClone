@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, Button, StyleSheet, Text, Dimensions } from 'react-native'
-import MapView from 'react-native-maps'
+// import MapView from 'react-native-maps'
 
 import Geolocation from '@react-native-community/geolocation';
 
@@ -67,14 +67,14 @@ export default class PickLocation extends React.Component {
         }
         return (
             <View style={styles.container}>
-                <MapView
+                {/* <MapView
                     style={styles.map}
                     initialRegion={this.state.focusedLocation}
                     // region={this.state.focusedLocation} //without animation
                     ref={ref => this.map = ref} //with animation
                     onPress={this.pickLocationHandler}>
                     {marker}
-                </MapView>
+                </MapView> */}
                 <View style={styles.placeHolder}>
                     <Text>Maps</Text>
                 </View>

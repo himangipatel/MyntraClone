@@ -34,11 +34,14 @@ target 'MyntraClone' do
 
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
-  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
 
   pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
+  pod 'RNGoogleSignin', :path => '../node_modules/react-native-google-signin'
+
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
 
   target 'MyntraCloneTests' do
     inherit! :search_paths

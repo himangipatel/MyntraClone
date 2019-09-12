@@ -16,9 +16,7 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
        <meta-data
      android:name="com.google.android.geo.API_KEY"
      android:value="AIzaSyClvqHB278N29M1zjb4nGdF5sqonteZmrw"/>

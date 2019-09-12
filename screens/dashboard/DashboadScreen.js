@@ -98,7 +98,7 @@ const DashBoardScreen = createDrawerNavigator({
     SharePlace: SharePlaceScreenStack,
 },
     {
-        initialRouteName: 'SharePlace',
+        initialRouteName: 'Home',
         drawerPosition: 'left',
         contentComponent: CustomDrawerContentComponent,
         drawerOpenRoute: 'DrawerOpen',
