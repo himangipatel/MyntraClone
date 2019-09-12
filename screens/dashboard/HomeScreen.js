@@ -1,30 +1,14 @@
-import React, {Component} from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Dimensions,
-} from 'react-native';
-import {SafeAreaView} from 'react-navigation';
-import {Icon} from 'react-native-elements';
-import {ScrollView} from 'react-native-gesture-handler';
-import Category from './Category';
-import BankOffer from './BankOffer';
-import NewArrivals from './NewArrivals';
-import {
-  men_category,
-  women_category,
-  kids_category,
-  beauty_category,
-  home_category,
-  gadgets_category,
-  rack_category,
-} from '../utils/Assets';
-import {IndicatorViewPager, PagerDotIndicator} from 'rn-viewpager';
-
+import React, { Component } from 'react';
+import { Dimensions, ImageBackground, Platform, StyleSheet, Text, View } from 'react-native';
+import { Icon } from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
+import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager';
 import ImageOverlay from '../dashboard/ImageOverlay';
+import { beauty_category, gadgets_category, home_category, kids_category, men_category, rack_category, women_category } from '../utils/Assets';
+import BankOffer from './BankOffer';
+import Category from './Category';
+import NewArrivals from './NewArrivals';
+
 
 const styles = StyleSheet.create({
   container: {

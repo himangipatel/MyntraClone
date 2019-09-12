@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import React from 'react';
+import { StyleSheet, TextInput, View } from 'react-native';
 import { Icon } from "react-native-elements";
 
 export default class BoxTextField extends React.Component {

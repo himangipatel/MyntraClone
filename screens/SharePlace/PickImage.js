@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { View, Image, Button, StyleSheet } from 'react-native';
-import ImagePicker from 'react-native-image-picker'
+import React from 'react';
+import { Button, Image, StyleSheet, View } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
 
 export default class PickImage extends React.Component {
   state = {

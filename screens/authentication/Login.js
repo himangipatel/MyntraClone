@@ -1,36 +1,19 @@
-import React, {Component} from 'react';
-import {
-  ImageBackground,
-  Dimensions,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Text,
-  ToastAndroid,
-  ActivityIndicator,
-  Image,
-} from 'react-native';
-import BoxTextField from './BoxTextField';
-import LinearGradient from 'react-native-linear-gradient';
-import {ScrollView} from 'react-native-gesture-handler';
 import Axios from 'axios';
+import React from 'react';
+import { ActivityIndicator, Dimensions, Image, ImageBackground, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import AnimateLoadingButton from 'react-native-animate-loading-button';
+import { ScrollView } from 'react-native-gesture-handler';
+import { GoogleSignin } from 'react-native-google-signin';
+import LinearGradient from 'react-native-linear-gradient';
+import { API } from '../utils/APIUtils';
+import { googleSignIn, signOut } from '../utils/AppUtils';
+import { bg_login, logo_facebook, logo_gmail } from '../utils/Assets';
+import { storeUserInfor } from '../utils/AsyncUtil';
+import { color_black, color_purple_dark, color_purple_light, color_transparent, color_white } from '../utils/ColorUtils';
+import { create_account, email, password, sign_in } from '../utils/StringUtils';
+import { validateEmail, validatePassword } from '../utils/Validator';
+import BoxTextField from './BoxTextField';
 
-import {GoogleSignin} from 'react-native-google-signin';
-import {signOut, googleSignIn} from '../utils/AppUtils';
-import {API} from '../utils/APIUtils';
-import {storeUserInfor} from '../utils/AsyncUtil';
-import {validateEmail, validatePassword} from '../utils/Validator';
-import {bg_login, logo_facebook, logo_gmail} from '../utils/Assets';
-import {email, password, sign_in, create_account} from '../utils/StringUtils';
-import {
-  color_purple_light,
-  color_purple_dark,
-  color_white,
-  color_black,
-  color_transparent,
-} from '../utils/ColorUtils';
-import {font_GillSans} from '../utils/FontUtils';
 
 export default class Login extends React.Component {
   state = {

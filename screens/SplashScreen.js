@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
+import { Text, View } from 'react-native';
 import Video from 'react-native-video';
-import {View, Text} from 'react-native';
-import {getAsyncData} from './utils/AsyncUtil';
-import {color_green, color_white} from './utils/ColorUtils';
-import {font_stoner} from './utils/FontUtils';
 import { splash_video } from './utils/Assets';
+import { getAsyncData } from './utils/AsyncUtil';
+import { color_green, color_white } from './utils/ColorUtils';
+import { font_stoner } from './utils/FontUtils';
 
 export default class SplashScreen extends React.Component {
   async componentDidMount() {

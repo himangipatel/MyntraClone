@@ -1,15 +1,10 @@
 
+import { Body, Container, Content, Header, Icon } from 'native-base';
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, StyleSheet, Text } from 'react-native';
-import {
-    createDrawerNavigator,
-    createStackNavigator,
-    createAppContainer, DrawerItems
-} from 'react-navigation';
-import { Container, Content, Icon, Header, Body } from 'native-base'
-import HomeScreen from './HomeScreen';
-import SignUp from '../authentication/SignUp';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { createDrawerNavigator, createStackNavigator, DrawerItems } from 'react-navigation';
 import SharePlace from '../SharePlace/SharePlace';
+import HomeScreen from './HomeScreen';
 
 
 const CustomDrawerContentComponent = (props) => (

@@ -1,6 +1,5 @@
-import React, { Component } from "react";
-import { View, Image, Text } from "react-native";
-import { Card } from "react-native-elements";
+import React from "react";
+import { Image, Text, View } from "react-native";
 
 
 export default class BankOffer extends React.Component {

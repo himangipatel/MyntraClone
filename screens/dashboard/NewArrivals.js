@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Text, View, Image } from "react-native";
+import React from "react";
+import { Image, Text, View } from "react-native";
 
 
 export default class NewArrivals extends React.Component {

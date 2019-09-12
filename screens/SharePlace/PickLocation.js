@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
-import { View, Image, Button, StyleSheet, Text, Dimensions } from 'react-native'
 // import MapView from 'react-native-maps'
-
 import Geolocation from '@react-native-community/geolocation';
+import React from 'react';
+import { Button, Dimensions, StyleSheet, Text, View } from 'react-native';
 
 
 export default class PickLocation extends React.Component {

@@ -6,35 +6,18 @@
  * @flow
  */
 
-import React, {Fragment} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  TextInput,
-  Button,
-  StatusBar,
-  ToastAndroid,
-  TouchableOpacity,
-  Image,
-  TouchableNativeFeedback,
-} from 'react-native';
-import AnimateLoadingButton from 'react-native-animate-loading-button';
-import {TextField} from 'react-native-material-textfield';
 import Axios from 'axios';
-import {signOut, googleSignIn} from '../utils/AppUtils';
-import {API} from '../utils/APIUtils';
-import {storeUserInfor} from '../utils/AsyncUtil';
-import {
-  validateEmail,
-  validateMobileNumber,
-  validatePassword,
-} from '../utils/Validator';
-import { email, password, mobile_number, full_name,create_account } from '../utils/StringUtils';
-import { color_green } from '../utils/ColorUtils';
+import React from 'react';
+import { Image, ScrollView, StyleSheet, ToastAndroid, TouchableOpacity, View } from 'react-native';
+import AnimateLoadingButton from 'react-native-animate-loading-button';
+import { TextField } from 'react-native-material-textfield';
+import { API } from '../utils/APIUtils';
+import { googleSignIn, signOut } from '../utils/AppUtils';
 import { logo_facebook, logo_gmail } from '../utils/Assets';
+import { storeUserInfor } from '../utils/AsyncUtil';
+import { color_green } from '../utils/ColorUtils';
+import { create_account, email, full_name, mobile_number, password } from '../utils/StringUtils';
+import { validateEmail, validateMobileNumber, validatePassword } from '../utils/Validator';
 
 export default class SignUp extends React.Component {
   static navigationOptions = {

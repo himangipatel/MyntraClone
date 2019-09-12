@@ -1,4 +1,4 @@
-import {GoogleSignin} from 'react-native-google-signin';
+import { GoogleSignin } from 'react-native-google-signin';
 
 export const signOut = async () => {
   try {

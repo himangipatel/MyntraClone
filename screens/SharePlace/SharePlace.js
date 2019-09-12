@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {View, Text} from 'native-base';
-import PickImage from './PickImage';
-import {TouchableOpacity} from 'react-native';
-import PickLocation from './PickLocation';
-import {ScrollView} from 'react-native-gesture-handler';
-import { saveAysncData} from '../utils/AsyncUtil'
+import { Text, View } from 'native-base';
+import React from 'react';
+import { TouchableOpacity } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { signOut } from '../utils/AppUtils';
+import { saveAysncData } from '../utils/AsyncUtil';
+import PickImage from './PickImage';
+import PickLocation from './PickLocation';
 
 export default class SharePlace extends React.Component {
   state = {
