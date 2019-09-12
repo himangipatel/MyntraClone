@@ -21,6 +21,16 @@ import {signOut, googleSignIn} from '../utils/AppUtils';
 import {API} from '../utils/APIUtils';
 import {storeUserInfor} from '../utils/AsyncUtil';
 import {validateEmail, validatePassword} from '../utils/Validator';
+import {bg_login, logo_facebook, logo_gmail} from '../utils/Assets';
+import {Email, Password, SignIn, CreateAccount} from '../utils/StringUtils';
+import {
+  color_purple_light,
+  color_purple_dark,
+  color_white,
+  color_black,
+  color_transparent,
+} from '../utils/ColorUtils';
+import {font_GillSans} from '../utils/FontUtils';
 
 export default class Login extends React.Component {
   state = {
@@ -123,11 +133,11 @@ export default class Login extends React.Component {
           <ImageBackground
             style={styles.container}
             imageStyle={{opacity: 0.4}}
-            source={require('../../assets/bg_login.jpeg')}>
+            source={bg_login}>
             <ActivityIndicator animating={this.state.isLoading} />
 
             <BoxTextField
-              hint="Email"
+              hint={Email}
               icon="email"
               keyboardType="email-address"
               onChangeText={text =>
@@ -136,7 +146,7 @@ export default class Login extends React.Component {
             />
 
             <BoxTextField
-              hint="Password"
+              hint={Password}
               icon="vpn-key"
               keyboardType="visible-password"
               secureTextEntry={true}
@@ -152,37 +162,33 @@ export default class Login extends React.Component {
                 marginTop: 10,
                 marginBottom: 20,
               }}>
-              <Text style={{color: '#fff'}}>Don't have account??</Text>
+              <Text style={{color: color_white}}>Don't have account??</Text>
 
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate('SignUp')}>
-                <Text
-                  style={{
-                    color: '#fff',
-                    textDecorationLine: 'underline',
-                    marginLeft: 7,
-                  }}>
-                  Create Account
-                </Text>
+                <Text style={styles.createAccountText}>Create Account</Text>
               </TouchableOpacity>
             </View>
 
             <LinearGradient
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
-              colors={['#172C4B', '#5F4B9B']}
+              colors={[color_purple_dark, color_purple_light]}
               style={styles.linearGradient}>
               <AnimateLoadingButton
                 ref={c => (this.loadingButton = c)}
                 width={300}
                 height={50}
-                title="SIGN IN"
-                backgroundColor="transparent"
+                title={SignIn}
+                backgroundColor={color_transparent}
                 titleFontSize={16}
                 titleColor="rgb(255,255,255)"
                 borderRadius={4}
                 onPress={() =>
-                  this.validateEmailPassword(this.state.email, this.state.password)
+                  this.validateEmailPassword(
+                    this.state.email,
+                    this.state.password,
+                  )
                 }
               />
             </LinearGradient>
@@ -191,14 +197,14 @@ export default class Login extends React.Component {
               <TouchableOpacity onPress={signOut}>
                 <Image
                   style={{width: 40, height: 40, marginTop: 15}}
-                  source={require('../../assets/facebook.png')}
+                  source={logo_facebook}
                 />
               </TouchableOpacity>
 
               <TouchableOpacity onPress={this.googleSignIn}>
                 <Image
                   style={{width: 40, height: 40, marginTop: 15, marginLeft: 30}}
-                  source={require('../../assets/gmail.png')}
+                  source={logo_gmail}
                 />
               </TouchableOpacity>
             </View>
@@ -215,19 +221,16 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000000',
+    backgroundColor: color_black,
   },
   linearGradient: {
     borderRadius: 5,
     width: 350,
     marginTop: 20,
   },
-  buttonText: {
-    fontSize: 18,
-    fontFamily: 'Gill Sans',
-    textAlign: 'center',
-    margin: 10,
-    color: '#ffffff',
-    backgroundColor: 'transparent',
+  createAccountText: {
+    color: color_white,
+    textDecorationLine: 'underline',
+    marginLeft: 7,
   },
 });

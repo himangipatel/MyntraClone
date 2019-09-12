@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import Video from 'react-native-video';
 import {View, Text} from 'react-native';
 import {getAsyncData} from './utils/AsyncUtil';
+import { splash_video } from './utils/Assets';
+import { color_green, color_white } from './utils/ColorUtils';
+import { font_stoner } from './utils/FontUtils';
 
 
 export default class SplashScreen extends React.Component {
@@ -28,14 +31,14 @@ export default class SplashScreen extends React.Component {
           height: null,
         }}>
         <Video
-          source={require('../assets/splashVideo.mp4')}
+          source={splash_video}
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: '#54c79f',
+            backgroundColor: color_green,
             opacity: 0.4,
           }}
           muted={true}
@@ -47,8 +50,8 @@ export default class SplashScreen extends React.Component {
           style={{
             fontSize: 60,
             textAlign: 'center',
-            fontFamily: 'stoner',
-            color: '#fff',
+            fontFamily: font_stoner,
+            color: color_white,
           }}>
           React Native Demo App
         </Text>

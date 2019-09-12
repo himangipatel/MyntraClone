@@ -32,6 +32,9 @@ import {
   validateMobileNumber,
   validatePassword,
 } from '../utils/Validator';
+import { email, password, mobile_number, full_name } from '../utils/StringUtils';
+import { color_green } from '../utils/ColorUtils';
+import { logo_facebook, logo_gmail } from '../utils/Assets';
 
 export default class SignUp extends React.Component {
   static navigationOptions = {
@@ -167,7 +170,7 @@ export default class SignUp extends React.Component {
         <View style={styles.container}>
           <TextField
             style={styles.textInput}
-            label="Email address*"
+            label={email}
             onChangeText={email =>
               this.validateFields(
                 email,
@@ -181,7 +184,7 @@ export default class SignUp extends React.Component {
 
           <TextField
             style={styles.textInput}
-            label="Password*"
+            label={password}
             error={this.state.passErr}
             onChangeText={password =>
               this.validateFields(
@@ -195,7 +198,7 @@ export default class SignUp extends React.Component {
 
           <TextField
             style={styles.textInput}
-            label="Mobile number*"
+            label={mobile_number}
             error={this.state.mobileErr}
             onChangeText={mobile =>
               this.validateFields(
@@ -209,7 +212,7 @@ export default class SignUp extends React.Component {
 
           <TextField
             style={styles.textInput}
-            label="Full Name*"
+            label={full_name}
             onChangeText={name => this.setState({name: name, nameErr: ''})}
             error={this.state.nameErr}
           />
@@ -220,8 +223,8 @@ export default class SignUp extends React.Component {
                 ref={c => (this.loadingButton = c)}
                 width={350}
                 height={45}
-                title="CREATE ACCOUNT"
-                backgroundColor="#54c79f"
+                title={create_account}
+                backgroundColor={color_green}
                 titleFontSize={16}
                 titleColor="rgb(255,255,255)"
                 borderRadius={4}
@@ -248,14 +251,14 @@ export default class SignUp extends React.Component {
               }}>
               <Image
                 style={{width: 40, height: 40, marginTop: 15}}
-                source={require('../../assets/facebook.png')}
+                source={logo_facebook}
               />
             </TouchableOpacity>
 
             <TouchableOpacity onPress={this.googleSignin}>
               <Image
                 style={{width: 40, height: 40, marginTop: 15, marginLeft: 30}}
-                source={require('../../assets/gmail.png')}
+                source={logo_gmail}
               />
             </TouchableOpacity>
           </View>
